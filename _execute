@@ -1,8 +1,42 @@
+# CLI Tool executor 
+# 
+# provides a standard set of parameters to add to call out to a CLI tool
+# in another container
+#
+# usage:
+# podarg="extra podman args" _execute IMAGE_NAME COMMAND [COMMAND_ARGS, ...]
+
 image=${1}
 shift 1
 command=${1}
 shift 1
+
+# X11: to get GUI apps to work requires:
+# -e DISPLAY --security-opt label=type:container_runtime_t -v /tmp/.X11-unix:/tmp/.X11-unix
+
+# ENVIRONMENT: it would be useful to pass all environment to the sub container
+# with --env-host but this is not supported by podman-remote (and would cost 
+# startup time) Therefore all required env vars must be passed explicitly
+# see for example ./edm
+
+args="
+--rm 
+--net podman
+-e DISPLAY
+--security-opt label=type:container_runtime_t
+"
+
+volumes="
+-v=/scratch:/scratch
+-v=/home/$USER:/home/$USER
+-v=/tmp:/tmp
+"
+
+all="${args} ${volumes} ${podarg} ${image} ${command}"
+
 (
-    set -x
-    podman run -it --rm --net podman ${image} ${command} ${@}
+    if [[ -n ${EXECUTE_VERBOSE} ]] ; then 
+        set -x
+    fi
+    podman run ${all} ${@}
 )

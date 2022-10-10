@@ -1,1 +1,1 @@
-_execute ghcr.io/epics-containers/epics-base-linux-runtime:work caget $@
+_execute ghcr.io/epics-containers/epics-base-linux-runtime:work caput $@
