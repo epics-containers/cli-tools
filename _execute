@@ -1,0 +1,8 @@
+image=${1}
+shift 1
+command=${1}
+shift 1
+(
+    set -x
+    podman run -it --rm --net podman ${image} ${command} ${@}
+)
