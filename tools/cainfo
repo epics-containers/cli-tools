@@ -1,0 +1,7 @@
+export podarg="
+-e EPICS_CA_ADDR_LIST
+-e EPICS_CA_AUTO_ADDR_LIST
+-e EPICS_CA_REPEATER_PORT
+-e EPICS_CA_SERVER_PORT
+"
+_execute ghcr.io/epics-containers/epics-base-linux-runtime:work cainfo ${@}

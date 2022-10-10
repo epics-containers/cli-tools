@@ -1,0 +1,12 @@
+#!/bin/bash
+
+thisdir=$(realpath $(dirname ${0}))
+
+toolpath=${thisdir}/tools/${2}
+
+if [[ -f ${toolpath} ]]; then 
+    echo ${2} already exists
+else
+    echo _execute ${1} ${2} '${@}' > ${toolpath}
+    chmod +x ${toolpath}
+fi

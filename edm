@@ -1,4 +1,0 @@
-export podarg="
--e EDMDATAFILES
-" 
-_execute ghcr.io/epics-containers/edm:latest edm $@
