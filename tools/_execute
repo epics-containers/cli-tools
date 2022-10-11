@@ -23,11 +23,11 @@ shift 1
 # see for example ./edm
 
 args="
+-i
 --rm 
 --net podman
 -e DISPLAY
 --security-opt label=type:container_runtime_t
--w $(pwd)
 "
 
 # CLI dev tools will want to see the filesystems you do work in. This is a 
@@ -35,16 +35,28 @@ args="
 volumes="
 -v=/home/$USER:/home/$USER
 -v=/tmp:/tmp
--v=$(pwd):$(pwd)
 "
 
 # set K8S_CLI_ARGS in $HOME/.bashrc_dev for extra settings
 # e.g. -v=scratch:/scratch
 all="${K8S_CLI_ARGS} ${args} ${volumes} ${podarg} ${image} ${command}"
+name=${command}${RANDOM}
+
+# The ctrl_c trap is because podman-server does not appear to send signals
+# to the subprocess, so ^C just disconnects and leaves the container running.
+# This happens with camonitor for example.
+# A fix in podman is incomming https://github.com/containers/podman/pull/15131
+
+trap ctrl_c INT
+function ctrl_c() 
+{
+  podman rm -ft0 ${name} &> /dev/null
+}
 
 (
     if [[ -n ${EXECUTE_VERBOSE} ]] ; then 
         set -x
     fi
-    podman run ${all} ${@}
+    podman run --name ${name} ${all} ${@}
 )
+
