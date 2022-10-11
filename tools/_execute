@@ -27,6 +27,7 @@ args="
 --net podman
 -e DISPLAY
 --security-opt label=type:container_runtime_t
+-w $(pwd)
 "
 
 # CLI dev tools will want to see the filesystems you do work in. This is a 
