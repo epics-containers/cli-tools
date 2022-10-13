@@ -1,0 +1,11 @@
+#!/bin/bash
+
+image=${1}
+shift
+echo "running a bash shell in the container ${image}"
+echo 
+
+export podarg="
+-it
+"
+_execute ${image} bash ${@}

@@ -1,0 +1,7 @@
+export podarg="
+-e EPICS_PVA_ADDR_LIST
+-e EPICS_PVA_AUTO_ADDR_LIST
+"
+
+echo $EPICS_PVA_ADDR_LIST
+_execute ghcr.io/epics-containers/pytools:main c2dv ${@}

@@ -35,6 +35,8 @@ args="
 volumes="
 -v=/home/$USER:/home/$USER
 -v=/tmp:/tmp
+-v=$(pwd):$(pwd)
+-w$(pwd)
 "
 
 # set K8S_CLI_ARGS in $HOME/.bashrc_dev for extra settings
