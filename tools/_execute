@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# CLI Tool executor 
-# 
+# CLI Tool executor
+#
 # provides a standard set of parameters to add to call out to a CLI tool
 # in another container
 #
@@ -18,19 +18,19 @@ shift 1
 # -e DISPLAY --security-opt label=type:container_runtime_t -v /tmp/.X11-unix:/tmp/.X11-unix
 
 # ENVIRONMENT: it would be useful to pass all environment to the sub container
-# with --env-host but this is not supported by podman-remote (and would cost 
+# with --env-host but this is not supported by podman-remote (and would cost
 # startup time) Therefore all required env vars must be passed explicitly
 # see for example ./edm
 
 args="
 -i
---rm 
---net podman
+--rm
+--net host
 -e DISPLAY
 --security-opt label=type:container_runtime_t
 "
 
-# CLI dev tools will want to see the filesystems you do work in. This is a 
+# CLI dev tools will want to see the filesystems you do work in. This is a
 # best guess at what is useful. You can add extra volumes in K8S_CLI_ARGS.
 volumes="
 -v=/home/$USER:/home/$USER
@@ -50,13 +50,13 @@ name=${command}${RANDOM}
 # A fix in podman is incomming https://github.com/containers/podman/pull/15131
 
 trap ctrl_c INT
-function ctrl_c() 
+function ctrl_c()
 {
   podman rm -ft0 ${name} &> /dev/null
 }
 
 (
-    if [[ -n ${EXECUTE_VERBOSE} ]] ; then 
+    if [[ -n ${EXECUTE_VERBOSE} ]] ; then
         set -x
     fi
     podman run --name ${name} ${all} ${@}

@@ -4,4 +4,4 @@ export podarg="
 "
 
 echo $EPICS_PVA_ADDR_LIST
-_execute ghcr.io/epics-containers/pytools:main c2dv ${@}
+_execute ghcr.io/epics-containers/pytools-linux-runtime:latest c2dv ${@}
