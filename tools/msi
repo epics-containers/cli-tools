@@ -1,1 +1,1 @@
-_execute ghcr.io/epics-containers/epics-base-linux-runtime:work msi ${@}
+_execute ghcr.io/epics-containers/epics-base-linux-runtime:23.3.1 msi ${@}

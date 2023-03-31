@@ -4,4 +4,4 @@ export podarg="
 -e EPICS_CA_REPEATER_PORT
 -e EPICS_CA_SERVER_PORT
 -it"
- _execute ghcr.io/epics-containers/epics-base-linux-runtime:work bash $@
+ _execute ghcr.io/epics-containers/epics-base-linux-runtime:23.3.1 bash $@
